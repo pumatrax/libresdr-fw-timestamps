@@ -1,0 +1,6 @@
+7e0cc3b5e43d93ca5b74449d61d70d7bd68cd026ecab8a547af656076617a32d  ./dfu-update/libresdr-v0.37-timestamps-libre.dfu
+3fb17877fcd8fe4043b7859cffb79041173f71c6c0e8def2e8b94e49aa55b269  ./dfu-update/libresdr-v0.37-timestamps-libre.frm
+c813a2c3efd767b0a27e015e1e647ee047fb9f3d2cbd2e03e1a9ea0276e1d0a0  ./libresdr-fw-v0.37-timestamps-libre.zip
+0a2673426c85c48ad9ea3f557f49aa12e292c31a31c3dae7fba1fe98ba89e586  ./sd-card-image/system_top.bit
+4ef5d4962c81f221a5f7f3dc0ab2c06345574b77c527e8c678172f482cce7fe0  ./sd-card-image/BOOT.bin
+0e3f64b134af97b0827c8cf8b9fc67e13e4a5aefd777fafefb032e8cb06be160  ./libresdr-jtag-bootstrap-v0.37-timestamps-libre.zip
