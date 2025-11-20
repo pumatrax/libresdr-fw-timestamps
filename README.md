@@ -1,139 +1,147 @@
-# plutosdr-fw
-PlutoSDR Firmware for the [ADALM-PLUTO](https://wiki.analog.com/university/tools/pluto "PlutoSDR Wiki Page") Active Learning Module
+# LibreSDR Firmware with Timestamp Support
 
-Latest binary Release : [![GitHub Release](https://img.shields.io/github/release/analogdevicesinc/plutosdr-fw.svg)](https://github.com/analogdevicesinc/plutosdr-fw/releases/latest)  [![Github Releases](https://img.shields.io/github/downloads/analogdevicesinc/plutosdr-fw/total.svg)](https://github.com/analogdevicesinc/plutosdr-fw/releases/latest)
+LibreSDR firmware (v0.37) with integrated timestamp functionality for LTE applications using srsRAN_4G.
 
-Firmware License : [![Many Licenses](https://img.shields.io/badge/license-LGPL2+-blue.svg)](https://github.com/analogdevicesinc/plutosdr-fw/blob/master/LICENSE.md)  [![Many License](https://img.shields.io/badge/license-GPL2+-blue.svg)](https://github.com/analogdevicesinc/plutosdr-fw/blob/master/LICENSE.md)  [![Many License](https://img.shields.io/badge/license-BSD-blue.svg)](https://github.com/analogdevicesinc/plutosdr-fw/blob/master/LICENSE.md)  [![Many License](https://img.shields.io/badge/license-apache-blue.svg)](https://github.com/analogdevicesinc/plutosdr-fw/blob/master/LICENSE.md) and many others.
+## Overview
 
-[Instructions from the Wiki: Building the image](https://wiki.analog.com/university/tools/pluto/building_the_image)
+This project combines:
+- **Hardware base**: [0wl/libresdr-fw](https://github.com/day0wl/libresdr-fw) - LibreSDR hardware support
+- **Timestamp functionality**: [pgreenland/plutosdr-fw](https://github.com/pgreenland/plutosdr-fw) v0.37_timestamp - Phil Greenland's timestamp system
+- **Target application**: LTE eNodeB using srsRAN_4G
 
-* Build Instructions
+## Key Features
+
+- ✅ Sample-aligned timestamps with clock-enable gating (CE connection)
+- ✅ Ethernet transport via `sdr_ip_gadget` daemon (UDP ports 30432/30433)
+- ✅ Compatible with SoapySDR/srsRAN_4G
+- ✅ Tested and working for LTE transmission on LibreSDR hardware
+- ✅ Built with Vivado 2021.2
+
+## Hardware Tested
+
+- **LibreSDR** (HamGeek variant with Ethernet)
+  - Zynq-7020 (xc7z020clg400-2)
+  - AD9361 RF transceiver
+  - Ethernet + USB connectivity
+
+## What's Different from Stock LibreSDR
+
+### FPGA/HDL Changes:
+1. Integrated Phil Greenland's timestamp IP blocks:
+   - `util_cpack2_timestamp` - RX path timestamping
+   - `util_upack2_timestamp` - TX path timestamping
+   - `c_counter_binary` with `CONFIG.CE true` - Sample-aligned counter
+
+2. Modified `system_bd.tcl` for timestamp signal routing:
+   - Counter clock-enable from `rx_fir_decimator/valid_out_0`
+   - Timestamp insertion in RX/TX data paths
+   - Clock domain crossing for DMA interface
+
+### Firmware Changes:
+1. Added `sdr_ip_gadget` daemon for low-latency Ethernet transport
+2. Added dependencies: `libiio`, `libad9361`, `libusb`
+3. Updated version string to `v0.37-timestamps-libre`
+
+## Building from Source
+
+### Prerequisites
 ```bash
- sudo apt-get install git build-essential fakeroot libncurses5-dev libssl-dev ccache
- sudo apt-get install dfu-util u-boot-tools device-tree-compiler libssl1.0-dev mtools
- sudo apt-get install bc python cpio zip unzip rsync file wget
- git clone --recursive https://github.com/analogdevicesinc/plutosdr-fw.git
- cd plutosdr-fw
- export CROSS_COMPILE=arm-linux-gnueabihf-
- export PATH=$PATH:/opt/Xilinx/Vitis/2021.2/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin
- export VIVADO_SETTINGS=/opt/Xilinx/Vivado/2021.2/settings64.sh
- make
-
+sudo apt-get install git build-essential fakeroot libncurses5-dev libssl-dev ccache
+sudo apt-get install dfu-util u-boot-tools device-tree-compiler mtools
+sudo apt-get install bc python cpio zip unzip rsync file wget
 ```
 
-The project may build also using Vivado 2019.1 2018.2 2017.4, 2017.2, 2016.4 or 2016.2.
-However 2021.2 is the current tested FPGA systhesis toolchain.
-In the v0.30 release we swithched to the arm-linux-gnueabihf-gcc hard-float toolchain.
+### Vivado Installation
 
-If you want to use the former arm-xilinx-linux-gnueabi-gcc soft-float toolchain included in SDK 2017.2.
-Following variables should be exported:
-
-
- ```bash
- export CROSS_COMPILE=arm-xilinx-linux-gnueabi-
- export PATH=$PATH:/opt/Xilinx/SDK/2017.2/gnu/arm/lin/bin
- export VIVADO_SETTINGS=/opt/Xilinx/Vivado/2017.4/settings64.sh
- ```
-
-And you need to revert this patch:
-https://github.com/analogdevicesinc/buildroot/commit/fea212afc7dc0ee530762a1921d9ae8180778ffa
-
-
- If you receive an error similar to the following:
- ```
- Starting SDK. This could take few seconds... timeout while establishing a connection with SDK
-    while executing
-"error "timeout while establishing a connection with SDK""
-    (procedure "getsdkchan" line 108)
-    invoked from within
-"getsdkchan"
-    (procedure "createhw" line 26)
-    invoked from within
-"createhw {*}$args"
-    (procedure "::sdk::create_hw_project" line 3)
-    invoked from within
-"sdk create_hw_project -name hw_0 -hwspec build/system_top.hdf"
-    (file "scripts/create_fsbl_project.tcl" line 5)
-```
-you may be able to work around it by preventing eclipse from using GTK3 for the Standard Widget Toolkit (SWT). Prior to running make, also set the following environment variable: 
+Requires Xilinx Vivado 2021.2. Set environment:
 ```bash
-export SWT_GTK3=0
+export VIVADO_SETTINGS=/opt/Xilinx/Vivado/2021.2/settings64.sh
+export CROSS_COMPILE=arm-linux-gnueabihf-
+export PATH=$PATH:/opt/Xilinx/Vitis/2021.2/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin
 ```
-This problem seems to affect Ubuntu 16.04LTS only.
 
- * Updating your local repository 
- ```bash 
-      git pull
-      git submodule update --init --recursive
-  ```
-   
-* Build Artifacts
- ```bash
-      michael@HAL9000:~/devel/plutosdr-fw$ ls -AGhl build
-      total 543M
-      -rw-rw-r-- 1 michael   69 Mär  1 09:28 boot.bif
-      -rw-rw-r-- 1 michael 443K Mär  1 09:28 boot.bin
-      -rw-rw-r-- 1 michael 443K Mär  1 09:28 boot.dfu
-      -rw-rw-r-- 1 michael 572K Mär  1 09:28 boot.frm
-      -rw-rw-r-- 1 michael 475M Mär  1 09:28 legal-info-v0.36.tar.gz
-      -rw-rw-r-- 1 michael 617K Mär  1 09:25 LICENSE.html
-      -rw-rw-r-- 1 michael  11M Mär  1 09:27 pluto.dfu
-      -rw-rw-r-- 1 michael  11M Mär  1 09:28 pluto.frm
-      -rw-rw-r-- 1 michael   33 Mär  1 09:28 pluto.frm.md5
-      -rw-rw-r-- 1 michael  11M Mär  1 09:27 pluto.itb
-      -rw-rw-r-- 1 michael  20M Mär  1 09:28 plutosdr-fw-v0.36.zip
-      -rw-rw-r-- 1 michael 578K Mär  1 09:28 plutosdr-jtag-bootstrap-v0.36.zip
-      -rw-rw-r-- 1 michael 441K Mär  1 09:26 ps7_init.c
-      -rw-rw-r-- 1 michael 442K Mär  1 09:26 ps7_init_gpl.c
-      -rw-rw-r-- 1 michael 4,2K Mär  1 09:26 ps7_init_gpl.h
-      -rw-rw-r-- 1 michael 3,6K Mär  1 09:26 ps7_init.h
-      -rw-rw-r-- 1 michael 2,4M Mär  1 09:26 ps7_init.html
-      -rw-rw-r-- 1 michael  31K Mär  1 09:26 ps7_init.tcl
-      -rw-r--r-- 1 michael 5,3M Mär  1 09:25 rootfs.cpio.gz
-      drwxrwxr-x 6 michael 4,0K Mär  1 09:26 sdk
-      -rw-rw-r-- 1 michael 943K Mär  1 09:26 system_top.bit
-      -rw-rw-r-- 1 michael 716K Mär  1 09:26 system_top.xsa
-      -rwxrwxr-x 1 michael 761K Mär  1 09:28 u-boot.elf
-      -rw-rw---- 1 michael 128K Mär  1 09:28 uboot-env.bin
-      -rw-rw---- 1 michael 129K Mär  1 09:28 uboot-env.dfu
-      -rw-rw-r-- 1 michael 7,0K Mär  1 09:28 uboot-env.txt
-      -rwxrwxr-x 1 michael 4,1M Mär  1 09:24 zImage
-      -rw-rw-r-- 1 michael  22K Mär  1 09:26 zynq-pluto-sdr.dtb
-      -rw-rw-r-- 1 michael  22K Mär  1 09:26 zynq-pluto-sdr-revb.dtb
-      -rw-rw-r-- 1 michael  23K Mär  1 09:26 zynq-pluto-sdr-revc.dtb
+### Build
+```bash
+git clone --recurse-submodules https://github.com/pumatrax/libresdr-fw-timestamps.git
+cd libresdr-fw-timestamps
+make
+```
 
- ```
- 
- * Main targets
- 
-     | File  | Comment |
-     | ------------- | ------------- | 
-     | pluto.frm | Main PlutoSDR firmware file used with the USB Mass Storage Device |
-     | pluto.dfu | Main PlutoSDR firmware file used in DFU mode |
-     | boot.frm  | First and Second Stage Bootloader (u-boot + fsbl + uEnv) used with the USB Mass Storage Device |
-     | boot.dfu  | First and Second Stage Bootloader (u-boot + fsbl) used in DFU mode |
-     | uboot-env.dfu  | u-boot default environment used in DFU mode |
-     | plutosdr-fw-vX.XX.zip  | ZIP archive containg all of the files above |  
-     | plutosdr-jtag-bootstrap-vX.XX.zip  | ZIP archive containg u-boot and Vivao TCL used for JATG bootstrapping |       
- 
-  * Other intermediate targets
+Build artifacts in `build/`:
+- `libre.dfu` - DFU image for flashing
+- `libre.frm` - Firmware update file
 
-     | File  | Comment |
-     | ------------- | ------------- |
-     | boot.bif | Boot Image Format file used to generate the Boot Image |
-     | boot.bin | Final Boot Image |
-     | pluto.frm.md5 | md5sum of the pluto.frm file |
-     | pluto.itb | u-boot Flattened Image Tree |
-     | rootfs.cpio.gz | The Root Filesystem archive |
-     | sdk | Vivado/XSDK Build folder including  the FSBL |
-     | system_top.bit | FPGA Bitstream (from HDF) |
-     | system_top.hdf | FPGA Hardware Description  File exported by Vivado |
-     | u-boot.elf | u-boot ELF Binary |
-     | uboot-env.bin | u-boot default environment in binary format created form uboot-env.txt |
-     | uboot-env.txt | u-boot default environment in human readable text format |
-     | zImage | Compressed Linux Kernel Image |
-     | zynq-pluto-sdr.dtb | Device Tree Blob for Rev.A |
-     | zynq-pluto-sdr-revb.dtb | Device Tree Blob for Rev.B|     
-     | zynq-pluto-sdr-revc.dtb | Device Tree Blob for Rev.C|
- 
+## Installation
 
+Flash via DFU:
+```bash
+sudo dfu-util -a firmware.dfu -D build/libre.dfu
+```
+
+Or copy `libre.frm` to LibreSDR mass storage device.
+
+## Usage with srsRAN
+
+### Install SoapySDR and Plugin
+
+Follow Phil Greenland's guide: [Private LTE with PlutoPlus SDR](https://www.quantulum.co.uk/blog/private-lte-with-plutoplus-sdr/)
+
+### Configure srsRAN
+
+In `~/.config/srsran/enb.conf`:
+```ini
+[rf]
+device_name = soapy
+device_args = driver=plutosdr,hostname=192.168.1.1,direct=1,timestamp_every=1920,loopback=0
+tx_gain = 89
+rx_gain = 20
+```
+
+### Verify Connection
+```bash
+# Check if SoapySDR finds LibreSDR
+SoapySDRUtil --find="driver=plutosdr,hostname=192.168.1.1"
+
+# SSH to LibreSDR and verify sdr_ip_gadget is running
+ssh root@192.168.1.1
+ps aux | grep sdr_ip_gadget
+```
+
+## Testing
+
+Successfully tested with:
+- srsRAN_4G eNodeB
+- Android UE device
+- LTE Band 4 (AWS 1700/2100 MHz)
+- 6 PRB configuration
+
+Phone successfully completes:
+- ✅ PSS/SSS detection
+- ✅ MIB decode
+- ✅ SIB1 acquisition  
+- ✅ RRC connection
+- ✅ Attach request
+
+## Credits
+
+- **0wl (day0wl)** - [LibreSDR firmware base](https://github.com/day0wl/libresdr-fw)
+- **Phil Greenland (Quantulum)** - [Timestamp functionality](https://github.com/pgreenland/plutosdr-fw) and [blog guides](https://www.quantulum.co.uk/blog/)
+- **Analog Devices** - [PlutoSDR HDL](https://github.com/analogdevicesinc/plutosdr-fw)
+
+## License
+
+Follows the same license structure as the upstream projects.
+
+## Notes
+
+- The CE (clock enable) connection on the timestamp counter is critical for LTE timing
+- `SYNC_TRANSFER_START 1` configuration allows DMA self-synchronization
+- Ethernet transport provides better performance than USB for LTE applications
+
+## Support
+
+For issues specific to this LibreSDR timestamp integration, please open an issue on this repository.
+
+For general srsRAN or timestamp usage questions, refer to:
+- [Phil's blog](https://www.quantulum.co.uk/blog/)
+- [srsRAN documentation](https://docs.srsran.com/)
