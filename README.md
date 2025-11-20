@@ -58,6 +58,7 @@ Requires Xilinx Vivado 2021.2. Set environment:
 export VIVADO_SETTINGS=/opt/Xilinx/Vivado/2021.2/settings64.sh
 export CROSS_COMPILE=arm-linux-gnueabihf-
 export PATH=$PATH:/opt/Xilinx/Vitis/2021.2/gnu/aarch32/lin/gcc-arm-linux-gnueabi/bin
+export TARGET=libre
 ```
 
 ### Build
