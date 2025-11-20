@@ -66,11 +66,15 @@ export TARGET=libre
 git clone --recurse-submodules https://github.com/pumatrax/libresdr-fw-timestamps.git
 cd libresdr-fw-timestamps
 make
+make sdimg
 ```
 
 Build artifacts in `build/`:
 - `libre.dfu` - DFU image for flashing
 - `libre.frm` - Firmware update file
+
+SD Card files in `build_sdimg/`:
+
 
 ## Installation
 
