@@ -1,0 +1,302 @@
+rm -f LICENSE.html zImage
+rm -rf build/*
+rm -rf build_sdimg
+make -C linux ARCH=arm zynq_libre_defconfig
+make[1]: Entering directory '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/linux'
+#
+# configuration written to .config
+#
+make[1]: Leaving directory '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/linux'
+make -C linux -j 8 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- zImage UIMAGE_LOADADDR=0x8000
+make[1]: Entering directory '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/linux'
+  SYNC    include/config/auto.conf.cmd
+  CALL    scripts/atomic/check-atomics.sh
+  CALL    scripts/checksyscalls.sh
+  CHK     include/generated/compile.h
+  GZIP    kernel/config_data.gz
+  CC      kernel/configs.o
+  AR      kernel/built-in.a
+  GEN     .version
+  CHK     include/generated/compile.h
+  UPD     include/generated/compile.h
+  CC      init/version.o
+  AR      init/built-in.a
+  LD      vmlinux.o
+  MODPOST vmlinux.symvers
+  MODINFO modules.builtin.modinfo
+  GEN     modules.builtin
+  LD      .tmp_vmlinux.kallsyms1
+  KSYMS   .tmp_vmlinux.kallsyms1.S
+  AS      .tmp_vmlinux.kallsyms1.S
+  LD      .tmp_vmlinux.kallsyms2
+  KSYMS   .tmp_vmlinux.kallsyms2.S
+  AS      .tmp_vmlinux.kallsyms2.S
+  LD      vmlinux
+  SORTTAB vmlinux
+  SYSMAP  System.map
+  OBJCOPY arch/arm/boot/Image
+  Kernel: arch/arm/boot/Image is ready
+  GZIP    arch/arm/boot/compressed/piggy_data
+  AS      arch/arm/boot/compressed/piggy.o
+  LD      arch/arm/boot/compressed/vmlinux
+  OBJCOPY arch/arm/boot/zImage
+  Kernel: arch/arm/boot/zImage is ready
+make[1]: Leaving directory '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/linux'
+make -C linux -j 8 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- uImage UIMAGE_LOADADDR=0x8000
+make[1]: Entering directory '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/linux'
+  CALL    scripts/atomic/check-atomics.sh
+  CALL    scripts/checksyscalls.sh
+  CHK     include/generated/compile.h
+  Kernel: arch/arm/boot/Image is ready
+  Kernel: arch/arm/boot/zImage is ready
+  UIMAGE  arch/arm/boot/uImage
+Image Name:   Linux-5.10.0-19970-g3eae70065be9
+Created:      Wed Nov 19 15:45:09 2025
+Image Type:   ARM Linux Kernel Image (uncompressed)
+Data Size:    4339728 Bytes = 4238.02 KiB = 4.14 MiB
+Load Address: 00008000
+Entry Point:  00008000
+  Kernel: arch/arm/boot/uImage is ready
+make[1]: Leaving directory '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/linux'
+cp linux/arch/arm/boot/zImage build/zImage
+make -C buildroot ARCH=arm zynq_libre_defconfig
+make[1]: Entering directory '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot'
+#
+# configuration written to /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/.config
+#
+make[1]: Leaving directory '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot'
+make -C buildroot legal-info
+make[1]: Entering directory '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot'
+[7m>>>   Buildroot -g0d5db4a280-dirty Collecting legal info[27m
+COPYING: OK (sha256: 9755181e27175cb3510b4da8629caa406fb355a19aa8e7d55f06bf8ab33323c4)
+/usr/bin/make -j1 O=/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output HOSTCC="/usr/bin/gcc" HOSTCXX="/usr/bin/g++" syncconfig
+[7m>>> toolchain-buildroot  Collecting legal info[27m
+[7m>>> host-gcc-final 10.3.0 Collecting legal info[27m
+[7m>>> host-binutils 2.36.1 Collecting legal info[27m
+COPYING3: OK (sha256: 8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903)
+COPYING.LIB: OK (sha256: 56bdea73b6145ef6ac5259b3da390b981d840c24cb03b8e1cbc678de7ecfa18d)
+[7m>>> host-skeleton  Collecting legal info[27m
+[7m>>> host-gmp 6.2.1 Collecting legal info[27m
+COPYING.LESSERv3: OK (sha256: a853c2ffec17057872340eee242ae4d96cbf2b520ae27d903e1b2fef1a5f9d1c)
+COPYINGv2: OK (sha256: 8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643)
+[7m>>> host-m4 1.4.19 Collecting legal info[27m
+COPYING: OK (sha256: 3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986)
+[7m>>> host-mpc 1.2.1 Collecting legal info[27m
+COPYING.LESSER: OK (sha256: da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768)
+[7m>>> host-mpfr 4.1.0 Collecting legal info[27m
+COPYING.LESSER: OK (sha256: e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118)
+[7m>>> uclibc 1.0.41 Collecting legal info[27m
+COPYING.LIB: OK (sha256: 6095e9ffa777dd22839f7801aa845b31c9ed07f3d6bf8a26dc5d2dec8ccc0ef3)
+[7m>>> host-gcc-initial 10.3.0 Collecting legal info[27m
+[7m>>> linux-headers 5.15.45 Collecting legal info[27m
+[7m>>> skeleton  Collecting legal info[27m
+[7m>>> skeleton-init-sysv  Collecting legal info[27m
+[7m>>> skeleton-init-common  Collecting legal info[27m
+[7m>>> toolchain  Collecting legal info[27m
+[7m>>> ad936x_ref_cal 01747db5cd60ff64115a73ac1f3bb97911f5c58e Collecting legal info[27m
+LICENSE: OK (sha256: 8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643)
+[7m>>> fftw-double 3.3.8 Collecting legal info[27m
+COPYING: OK (sha256: 231f7edcc7352d7734a96eef0b8030f77982678c516876fcb81e25b32d68564c)
+[7m>>> libiio 0.24 Collecting legal info[27m
+COPYING.txt: OK (sha256: 102900208eef27b766380135906d431dba87edaa7ec6aa72e6ebd3dd67f3a97b)
+[7m>>> avahi 0.8 Collecting legal info[27m
+LICENSE: OK (sha256: a9bdde5616ecdd1e980b44f360600ee8783b1f99b8cc83a2beb163a0a390e861)
+[7m>>> dbus 1.12.22 Collecting legal info[27m
+COPYING: OK (sha256: 0e46f54efb12d04ab5c33713bacd0e140c9a35b57ae29e03c853203266e8f3a1)
+[7m>>> expat 2.4.7 Collecting legal info[27m
+COPYING: OK (sha256: 8c6b5b6de8fae20b317f4992729abc0e520bfba4c7606cd1e9eeb87418eebdec)
+[7m>>> host-pkgconf 1.6.3 Collecting legal info[27m
+COPYING: OK (sha256: 07ee94b50a41ee3fc4e13a9b9c60b26fc28488494c465639f7e5f07a3952ec04)
+[7m>>> libdaemon 0.14 Collecting legal info[27m
+LICENSE: OK (sha256: a9bdde5616ecdd1e980b44f360600ee8783b1f99b8cc83a2beb163a0a390e861)
+[7m>>> host-bison 3.8.2 Collecting legal info[27m
+COPYING: OK (sha256: 3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986)
+[7m>>> host-flex 2.6.4 Collecting legal info[27m
+COPYING: OK (sha256: 97fd685958d93be7f8dab939bb8161dbd6afb0718c63bfc337c24321aea44273)
+[7m>>> host-autoconf 2.71 Collecting legal info[27m
+COPYINGv3: OK (sha256: 3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986)
+COPYING.EXCEPTION: OK (sha256: 1f1cde9fb68b9b3cff18c420894bec5bd4defacd700b7d13df54a887301e5350)
+[7m>>> host-libtool 2.4.6 Collecting legal info[27m
+COPYING: OK (sha256: 8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643)
+libltdl/COPYING.LIB: OK (sha256: dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551)
+[7m>>> host-automake 1.16.5 Collecting legal info[27m
+COPYING: OK (sha256: ab15fd526bd8dd18a9e77ebc139656bf4d33e97fc7238cd11bf60e2b9b8666c6)
+[7m>>> host-gettext  Collecting legal info[27m
+[7m>>> host-gettext-tiny 0.3.2 Collecting legal info[27m
+LICENSE: OK (sha256: 4c938aa3d8fa3c184bba5e87a8a2febc89560627c9d0567536879e3eca1a7b4f)
+extra/COPYING: OK (sha256: e79e9c8a0c85d735ff98185918ec94ed7d175efc377012787aebcf3b80f0d90b)
+[7m>>> libaio 0.3.112 Collecting legal info[27m
+COPYING: OK (sha256: 5bbcbb737e60fe9deba08ecbd00920cfcc3403ba2e534c64fdeea49d6bb87509)
+[7m>>> libserialport 0.1.1 Collecting legal info[27m
+COPYING: OK (sha256: da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768)
+[7m>>> libusb 1.0.25 Collecting legal info[27m
+COPYING: OK (sha256: 5df07007198989c622f5d41de8d703e7bef3d0e79d62e24332ee739a452af62a)
+[7m>>> libxml2 2.9.14 Collecting legal info[27m
+COPYING: OK (sha256: c5c63674f8a83c4d2e385d96d1c670a03cb871ba2927755467017317878574bd)
+[7m>>> zlib  Collecting legal info[27m
+[7m>>> libzlib 1.2.12 Collecting legal info[27m
+README: OK (sha256: fc2c3368901700f0acdeb1d8afeaca5923296768ec6824ecdf627aac396001fd)
+[7m>>> bmon 4.0 Collecting legal info[27m
+LICENSE.BSD: OK (sha256: 59ae3d59c672bfb955917a8e32f5cacba7f8ce716c499a4c63dc8cd8cb5c4991)
+LICENSE.MIT: OK (sha256: a2a6760c2c6fa779a635e4a7ad00f668862ebcadb2a8a57d16662543e103e08c)
+[7m>>> libconfuse 3.3 Collecting legal info[27m
+LICENSE: OK (sha256: dc3ff4b62f851dd2e94a151061ffeb7d28ddfc880a442068dc5283dbaa927306)
+[7m>>> libnl 3.5.0 Collecting legal info[27m
+COPYING: OK (sha256: dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551)
+[7m>>> ncurses 6.1 Collecting legal info[27m
+COPYING: OK (sha256: 4d1fde61868c73776a539366dccf5d5a4857e7fd7299efb1f02e07c2afe9ea87)
+[7m>>> host-ncurses 6.1 Collecting legal info[27m
+COPYING: OK (sha256: 4d1fde61868c73776a539366dccf5d5a4857e7fd7299efb1f02e07c2afe9ea87)
+[7m>>> busybox 1.35.0 Collecting legal info[27m
+LICENSE: OK (sha256: bbfc9843646d483c334664f651c208b9839626891d8f17604db2146962f43548)
+archival/libarchive/bz/LICENSE: OK (sha256: b5a136ed67798e51fe2e0ca0b2a21cb01b904ff0c9f7d563a6292e276607e58f)
+[7m>>> mtd 2.1.3 Collecting legal info[27m
+COPYING: OK (sha256: dcc100d4161cc0b7177545ab6e47216f84857cda3843847c792a25289852dcaa)
+[7m>>> host-dosfstools 4.2 Collecting legal info[27m
+COPYING: OK (sha256: 8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903)
+[7m>>> dropbear 2020.81 Collecting legal info[27m
+LICENSE: OK (sha256: a99ce657d790b761c132ee7e0de18edb437ae6361e536d991c6a12f36e770445)
+libtommath/LICENSE: OK (sha256: 2fa64b163659f41965c9815882a8296d3d03ff546b76153e11445f9bdecf955a)
+libtomcrypt/LICENSE: OK (sha256: 8f196cb13afd271f5e267fd29543fc454596382ad580e7592709492843996ac8)
+[7m>>> host-genimage 15 Collecting legal info[27m
+COPYING: OK (sha256: 8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643)
+[7m>>> host-libconfuse 3.3 Collecting legal info[27m
+LICENSE: OK (sha256: dc3ff4b62f851dd2e94a151061ffeb7d28ddfc880a442068dc5283dbaa927306)
+[7m>>> htop 3.1.2 Collecting legal info[27m
+COPYING: OK (sha256: 8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643)
+[7m>>> ifupdown-scripts  Collecting legal info[27m
+[7m>>> initscripts  Collecting legal info[27m
+[7m>>> input-event-daemon 0.1.3 Collecting legal info[27m
+README: OK (sha256: 56f6614c63a023e4d486332968bfa7933f06ea7c785ef85f403448022ae7f912)
+[7m>>> iw 5.16 Collecting legal info[27m
+COPYING: OK (sha256: 5932fb70481e128940168a5fdf133e6454293c0865c7e757874b235cb6daa2af)
+[7m>>> libad9361-iio 0.2 Collecting legal info[27m
+ERROR: No hash found for LICENSE
+[7m>>> libini a467418 Collecting legal info[27m
+WARNING: no hash file for LICENSE.txt
+[7m>>> linux-firmware 20211216 Collecting legal info[27m
+LICENCE.ralink-firmware.txt: OK (sha256: d7bec70668ddd4aae8fb4aa32870e54b49fcdb0b9b007aa9f54b53a1ac7461bd)
+LICENCE.rtlwifi_firmware.txt: OK (sha256: a61351665b4f264f6c631364f85b907d8f8f41f8b369533ef4021765f9f3b62e)
+WHENCE: OK (sha256: dfb98c5474d6264a6554322b3936e305e9d73cc7b683932e3f17550dc7d2d29b)
+[7m>>> host-mkpasswd  Collecting legal info[27m
+[7m>>> host-mtools 4.0.38 Collecting legal info[27m
+COPYING: OK (sha256: 8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903)
+[7m>>> host-lzip 1.23 Collecting legal info[27m
+COPYING: OK (sha256: 3d77c1a58fbde5ddba612d1fe09965e20a3804953eca12e8c1892298bb8a5eef)
+[7m>>> host-patchelf 0.9 Collecting legal info[27m
+COPYING: OK (sha256: 8ceb4b9ee5adedde47b31e975c1d90c73ad27b6b165a1dcd80c7c545eb65b903)
+[7m>>> poll_sysfs  Collecting legal info[27m
+[7m>>> sdr_ip_gadget HEAD Collecting legal info[27m
+[7m>>> uboot-tools 2021.07 Collecting legal info[27m
+Licenses/gpl-2.0.txt: OK (sha256: 8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643)
+[7m>>> host-uboot-tools 2021.07 Collecting legal info[27m
+Licenses/gpl-2.0.txt: OK (sha256: 8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643)
+[7m>>> urandom-scripts  Collecting legal info[27m
+[7m>>> wpa_supplicant 2.10 Collecting legal info[27m
+README: OK (sha256: af01e1d1ee065a1054d20ebe8a78a016f1fb1133b73e6a9d50801b165bb280c7)
+[7m>>> zstd 1.5.2 Collecting legal info[27m
+LICENSE: OK (sha256: 2c1a7fa704df8f3a606f6fc010b8b5aaebf403f3aeec339a12048f1ba7331a0b)
+COPYING: OK (sha256: f9c375a1be4a41f7b70301dd83c91cb89e41567478859b77eef375a52d782505)
+[7m>>> host-acl 2.3.1 Collecting legal info[27m
+doc/COPYING: OK (sha256: a45a845012742796534f7e91fe623262ccfb99460a2bd04015bd28d66fba95b8)
+doc/COPYING.LGPL: OK (sha256: 01b1f9f2c8ee648a7a596a1abe8aa4ed7899b1c9e5551bda06da6e422b04aa55)
+[7m>>> host-attr 2.5.1 Collecting legal info[27m
+doc/COPYING: OK (sha256: 98f318493be6b08bff3cd295791cde06c54e17882a3c74a1ed245eaa02533d52)
+doc/COPYING.LGPL: OK (sha256: 5decad7e58d90d44335bf2f45ce27563bd911065c6a1a02dfa7647c4efee75c8)
+[7m>>> host-fakeroot 1.26 Collecting legal info[27m
+COPYING: OK (sha256: fc82ca8b6fdb18d4e3e85cfd8ab58d1bcd3f1b29abe782895abd91d64763f8e7)
+[7m>>> host-makedevs  Collecting legal info[27m
+WARNING: the Buildroot source code has not been saved
+WARNING: gcc-final-10.3.0: cannot save license (HOST_GCC_FINAL_LICENSE_FILES not defined)
+WARNING: gcc-initial-10.3.0: cannot save license (HOST_GCC_INITIAL_LICENSE_FILES not defined)
+WARNING: linux-headers-5.15.45: cannot save license (LINUX_HEADERS_LICENSE_FILES not defined)
+WARNING: sdr_ip_gadget-HEAD: cannot save license (SDR_IP_GADGET_LICENSE_FILES not defined)
+Legal info produced in /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/legal-info
+make[1]: Leaving directory '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot'
+scripts/legal_info_html.sh "LIBRE" "/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/board/libre/VERSIONS"
+find: ‘buildroot/output/legal-info/licenses/linux-headers-5.15.45/’: No such file or directory
+find: ‘buildroot/output/legal-info/licenses/sdr_ip_gadget-HEAD/’: No such file or directory
+cp build/LICENSE.html buildroot/board/libre/msd/LICENSE.html
+make -C buildroot TOOLCHAIN_EXTERNAL_INSTALL_DIR=/usr ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- BUSYBOX_CONFIG_FILE=/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/board/libre/busybox-1.25.0.config all
+make[1]: Entering directory '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot'
+[7m>>>   Finalizing host directory[27m
+[7m>>>   Finalizing target directory[27m
+mkdir -p /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/etc/meson
+sed -e "s%@TARGET_CFLAGS@%'-D_LARGEFILE_SOURCE', '-D_LARGEFILE64_SOURCE', '-D_FILE_OFFSET_BITS=64', '-O2', '-g0'@PKG_TARGET_CFLAGS@%g" -e "s%@TARGET_LDFLAGS@%@PKG_TARGET_LDFLAGS@%g" -e "s%@TARGET_CXXFLAGS@%'-D_LARGEFILE_SOURCE', '-D_LARGEFILE64_SOURCE', '-D_FILE_OFFSET_BITS=64', '-O2', '-g0'@PKG_TARGET_CXXFLAGS@%g"         -e "s%@TARGET_CC@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/bin/arm-buildroot-linux-uclibcgnueabihf-gcc%g" -e "s%@TARGET_CXX@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/bin/arm-buildroot-linux-uclibcgnueabihf-g++%g" -e "s%@TARGET_AR@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/bin/arm-buildroot-linux-uclibcgnueabihf-gcc-ar%g" -e "s%@TARGET_STRIP@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/bin/arm-buildroot-linux-uclibcgnueabihf-strip%g" -e "s%@TARGET_ARCH@%arm%g" -e "s%@TARGET_CPU@%cortex-a9%g" -e "s%@TARGET_ENDIAN@%little%g" -e "s%@TARGET_CFLAGS@%%g" -e "s%@TARGET_LDFLAGS@%%g" -e "s%@TARGET_CXXFLAGS@%%g" -e "s%@BR2_CMAKE@%/usr/bin/cmake%g" -e "s%@PKGCONF_HOST_BINARY@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/bin/pkgconf%g" -e "s%@HOST_DIR@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host%g" -e "s%@STAGING_DIR@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/arm-buildroot-linux-uclibcgnueabihf/sysroot%g" -e "s%@STATIC@%false%g" /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/support/misc/cross-compilation.conf.in > /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/etc/meson/cross-compilation.conf.in
+sed         -e "s%@TARGET_CC@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/bin/arm-buildroot-linux-uclibcgnueabihf-gcc%g" -e "s%@TARGET_CXX@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/bin/arm-buildroot-linux-uclibcgnueabihf-g++%g" -e "s%@TARGET_AR@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/bin/arm-buildroot-linux-uclibcgnueabihf-gcc-ar%g" -e "s%@TARGET_STRIP@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/bin/arm-buildroot-linux-uclibcgnueabihf-strip%g" -e "s%@TARGET_ARCH@%arm%g" -e "s%@TARGET_CPU@%cortex-a9%g" -e "s%@TARGET_ENDIAN@%little%g" -e "s%@TARGET_CFLAGS@%'-D_LARGEFILE_SOURCE', '-D_LARGEFILE64_SOURCE', '-D_FILE_OFFSET_BITS=64', '-O2', '-g0'%g" -e "s%@TARGET_LDFLAGS@%%g" -e "s%@TARGET_CXXFLAGS@%'-D_LARGEFILE_SOURCE', '-D_LARGEFILE64_SOURCE', '-D_FILE_OFFSET_BITS=64', '-O2', '-g0'%g" -e "s%@BR2_CMAKE@%/usr/bin/cmake%g" -e "s%@PKGCONF_HOST_BINARY@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/bin/pkgconf%g" -e "s%@HOST_DIR@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host%g" -e "s%@STAGING_DIR@%/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/arm-buildroot-linux-uclibcgnueabihf/sysroot%g" -e "s%@STATIC@%false%g" /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/support/misc/cross-compilation.conf.in > /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/etc/meson/cross-compilation.conf
+/usr/bin/sed -i -e '/# GENERIC_SERIAL$/s~^.*#~ttyPS0::respawn:/sbin/getty -L  ttyPS0 0 vt100 #~' /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/inittab
+/usr/bin/sed -i -e '/^#.*-o remount,rw \/$/s~^#\+~~' /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/inittab
+if grep -q CONFIG_ASH=y /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/build/busybox-1.35.0/.config; then grep -qsE '^/bin/ash$' /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/shells || echo "/bin/ash" >> /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/shells; fi
+if grep -q CONFIG_HUSH=y /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/build/busybox-1.35.0/.config; then grep -qsE '^/bin/hush$' /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/shells || echo "/bin/hush" >> /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/shells; fi
+mkdir -p /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc
+echo "libre" > /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/hostname
+/usr/bin/sed -i -e '$a \127.0.1.1\tlibre' -e '/^127.0.1.1/d' /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/hosts
+mkdir -p /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc
+echo "Welcome to LIBRESDR" > /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/issue
+/usr/bin/sed -i -e s,^root:[^:]*:,root:"`/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/bin/mkpasswd -m "sha-256" "analog"`":, /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/shadow
+grep -qsE '^/bin/sh$' /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/shells || echo "/bin/sh" >> /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/shells
+if [ -x /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/sbin/swapon -a -x /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/sbin/swapoff ]; then /usr/bin/sed -i -e '/^#.*\/sbin\/swap/s/^#\+[[:blank:]]*//' /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/inittab; else /usr/bin/sed -i -e '/^[^#].*\/sbin\/swap/s/^/#/' /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/inittab; fi
+printf '%s\n' C en_US locale-archive > /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/build/locales.nopurge
+for dir in /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/locale /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/X11/locale /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/lib/locale; do if [ ! -d $dir ]; then continue; fi; for langdir in $dir/*; do if [ -e "${langdir}" ]; then grep -qx "${langdir##*/}" /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/build/locales.nopurge || rm -rf $langdir; fi done; done
+if [ -d /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/X11/locale ]; then for lang in C en_US; do if [ -f /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/X11/locale/$lang/XLC_LOCALE ]; then echo "$lang/XLC_LOCALE: $lang"; fi done > /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/X11/locale/locale.dir; fi
+rm -rf /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/include /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/aclocal \
+	/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/lib/pkgconfig /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/pkgconfig \
+	/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/lib/cmake /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/cmake \
+	/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/doc
+find /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/{lib,share}/ -name '*.cmake' -print0 | xargs -0 rm -f
+find /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/lib/ /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/lib/ /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/libexec/ \
+	\( -name '*.a' -o -name '*.la' -o -name '*.prl' \) -print0 | xargs -0 rm -f
+rm -rf /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/gdb
+rm -rf /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/bash-completion
+rm -rf /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/bash_completion.d
+rm -rf /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/zsh
+rm -rf /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/man /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/man
+rm -rf /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/info /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/info
+rm -rf /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/doc /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/doc
+rm -rf /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share/gtk-doc
+rmdir /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/share 2>/dev/null || true
+rm -rf /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/lib/debug /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/lib/debug
+find /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target   -type f \( -perm /111 -o -name '*.so*' \) -not \( -name 'libpthread*.so*' -o -name 'ld-*.so*' -o -name '*.ko' \) -print0 | xargs -0 /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/bin/arm-buildroot-linux-uclibcgnueabihf-strip --remove-section=.comment --remove-section=.note 2>/dev/null || true
+find /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target   \( -name 'ld-*.so*' -o -name 'libpthread*.so*' \) -print0 | xargs -0 -r /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/host/bin/arm-buildroot-linux-uclibcgnueabihf-strip --remove-section=.comment --remove-section=.note --strip-debug 2>/dev/null || true
+test -f /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/ld.so.conf && \
+	{ echo "ERROR: we shouldn't have a /etc/ld.so.conf file"; exit 1; } || true
+test -d /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/ld.so.conf.d && \
+	{ echo "ERROR: we shouldn't have a /etc/ld.so.conf.d directory"; exit 1; } || true
+mkdir -p /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc
+( \
+	echo "NAME=Buildroot"; \
+	echo "VERSION=-g0d5db4a280-dirty"; \
+	echo "ID=buildroot"; \
+	echo "VERSION_ID=2022.02.3"; \
+	echo "PRETTY_NAME=\"Buildroot 2022.02.3\"" \
+) >  /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/usr/lib/os-release
+ln -sf ../usr/lib/os-release /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc
+[7m>>>   Sanitizing RPATH in target tree[27m
+PER_PACKAGE_DIR=/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/per-package /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/support/scripts/fix-rpath target
+[7m>>>   Executing post-build script board/libre/post-build.sh[27m
+board/libre/post-build.sh: 178: /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/.config: TOPDIR: not found
+board/libre/post-build.sh: 179: /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/.config: BASE_DIR: not found
+board/libre/post-build.sh: 208: /home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/.config: CONFIG_DIR: not found
+board/libre/post-build.sh: 26: -gcc: not found
+board/libre/post-build.sh: 27: -as: not found
+INFO: cmd: "mkdir -p "/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/build/genimage.tmp"" (stderr):
+INFO: cmd: "rm -rf "/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/build/genimage.tmp"/*" (stderr):
+INFO: cmd: "mkdir -p "/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/build/genimage.tmp"" (stderr):
+INFO: cmd: "cp -a "/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target" "/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/build/genimage.tmp/root"" (stderr):
+INFO: cmd: "find '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/build/genimage.tmp/root' -depth -type d -printf '%P\0' | xargs -0 -I {} touch -r '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/{}' '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/build/genimage.tmp/root/{}'" (stderr):
+INFO: cmd: "mkdir -p "/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/opt/"" (stderr):
+INFO: vfat(boot.vfat): cmd: "dd if=/dev/zero of="/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/opt//boot.vfat" seek=31457280 count=0 bs=1 2>/dev/null" (stderr):
+INFO: vfat(boot.vfat): cmd: "mkdosfs -n PlutoSDR  '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/opt//boot.vfat'" (stderr):
+mkfs.fat: Warning: lowercase labels might not work properly on some systems
+INFO: vfat(boot.vfat): adding file 'index.html' as 'index.html' ...
+INFO: vfat(boot.vfat): cmd: "MTOOLS_SKIP_CHECK=1 mcopy -sp -i '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/opt//boot.vfat' '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/board/libre/msd/index.html' '::'" (stderr):
+INFO: vfat(boot.vfat): adding file 'LICENSE.html' as 'LICENSE.html' ...
+INFO: vfat(boot.vfat): cmd: "MTOOLS_SKIP_CHECK=1 mcopy -sp -i '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/opt//boot.vfat' '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/board/libre/msd/LICENSE.html' '::'" (stderr):
+INFO: hdimage(vfat.img): adding partition 'boot' (in MBR) from 'boot.vfat' ...
+INFO: hdimage(vfat.img): adding partition '[MBR]' ...
+INFO: hdimage(vfat.img): writing MBR
+install: target '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot/output/target/etc/init.d/' is not a directory: No such file or directory
+make[2]: *** [Makefile:761: target-finalize] Error 1
+make[1]: *** [Makefile:84: _all] Error 2
+make[1]: Leaving directory '/home/joe/libresdr-timestamps/libresdr-fw/plutosdr-fw_0.37_libre/buildroot'
+make: *** [Makefile:127: buildroot/output/images/rootfs.cpio.gz] Error 2
