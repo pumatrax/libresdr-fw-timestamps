@@ -117,7 +117,7 @@ Both variants tested with srsRAN_4G on Linux host, LTE Band 4:
 | 25  | 5 MHz     | ✅ Stable    | ✅ Stable    | **Sweet spot** - phones connect to auth |
 | 50  | 10 MHz    | ❌ Clock limit | ❌ Clock limit | AD9361 constraint |
 
-**Authentication reached:** Phones successfully attach and begin authentication at PRB 25 on both variants. MAC code failures are SIM configuration issues, not firmware problems.
+**Authentication reached:** Phones successfully attach and begin authentication at PRB 25 on both variants. MAC code.
 
 ---
 
