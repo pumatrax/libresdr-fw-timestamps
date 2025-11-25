@@ -1,11 +1,11 @@
 #~/bin/sh
-# This resets a connected pluto, loads firmware into ram, and boots it
+# This resets a connected pluto (libre clone), loads firmware into ram, and boots it
 #
 
 #default IP address
 ipaddr=192.168.2.1
 
-if [ ! -f ./build/pluto.dfu ] ; then
+if [ ! -f ./build/libre.dfu ] ; then
     echo no file to upload
     exit
 fi
@@ -32,4 +32,4 @@ do
 done
 
 # -R resets/terminates the dfu after we are done
-sudo dfu-util -R -d 0456:b673,0456:b674 -D ./build/pluto.dfu -a firmware.dfu
+sudo dfu-util -R -d 0456:b673,0456:b674 -D ./build/libre.dfu -a firmware.dfu

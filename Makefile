@@ -10,7 +10,7 @@ NCORES = $(shell grep -c ^processor /proc/cpuinfo)
 VIVADO_SETTINGS ?= /opt/Xilinx/Vivado/$(VIVADO_VERSION)/settings64.sh
 VSUBDIRS = hdl buildroot linux u-boot-xlnx
 
-VERSION=$(shell git describe --abbrev=4 --dirty --always --tags)
+VERSION=v0.38-timestamps-libre
 LATEST_TAG=$(shell git describe --abbrev=0 --tags)
 UBOOT_VERSION=$(shell echo -n "PlutoSDR " && cd u-boot-xlnx && git describe --abbrev=0 --dirty --always --tags)
 HAVE_VIVADO= $(shell bash -c "source $(VIVADO_SETTINGS) > /dev/null 2>&1 && vivado -version > /dev/null 2>&1 && echo 1 || echo 0")
@@ -27,8 +27,8 @@ $(error "      3] export VIVADO_VERSION=v20xx.x")
 	endif
 endif
 
-TARGET ?= pluto
-SUPPORTED_TARGETS:=pluto sidekiqz2
+TARGET ?= libre
+SUPPORTED_TARGETS:=pluto sidekiqz2 libre
 
 # Include target specific constants
 include scripts/$(TARGET).mk
@@ -48,7 +48,7 @@ endif
 
 ifeq ($(findstring $(TARGET),$(SUPPORTED_TARGETS)),)
 all:
-	@echo "Invalid `TARGET variable ; valid values are: pluto, sidekiqz2" &&
+	@echo "Invalid `TARGET variable ; valid values are: pluto, sidekiqz2, libre" &&
 	exit 1
 else
 all: clean-build $(TARGETS) zip-all legal-info
@@ -91,11 +91,14 @@ build/uboot-env.bin: build/uboot-env.txt
 linux/arch/arm/boot/zImage: TOOLCHAIN
 	$(TOOLS_PATH) make -C linux ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) zynq_$(TARGET)_defconfig
 	$(TOOLS_PATH) make -C linux -j $(NCORES) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) zImage UIMAGE_LOADADDR=0x8000
+	$(TOOLS_PATH) make -C linux -j $(NCORES) ARCH=arm CROSS_COMPILE=$(CROSS_COMPILE) uImage UIMAGE_LOADADDR=0x8000
 
 .PHONY: linux/arch/arm/boot/zImage
-
+.PHONY: linux/arch/arm/boot/uImage
 
 build/zImage: linux/arch/arm/boot/zImage | build
+	cp $< $@
+build/uImage: linux/arch/arm/boot/uImage  | build
 	cp $< $@
 
 ### Device Tree ###
@@ -177,6 +180,7 @@ build/$(TARGET).dfu: build/$(TARGET).itb
 clean-build:
 	rm -f $(notdir $(wildcard build/*))
 	rm -rf build/*
+	rm -rf build_sdimg
 
 clean:
 	make -C u-boot-xlnx clean
@@ -185,6 +189,32 @@ clean:
 	make -C hdl clean
 	rm -f $(notdir $(wildcard build/*))
 	rm -rf build/*
+	rm -rf build_sdimg
+	
+overclock: build/sdk/fsbl/Release/fsbl.elf
+	test -n "$(OVERCLOCK_CPU_MULT)"  # Check environment veriable OVERCLOCK_CPU_MULT for overclock.
+	test -n "$(OVERCLOCK_DDR_MULT)"  # Check environment veriable OVERCLOCK_DDR_MULT for overclock.
+	bash -c "source $(VIVADO_SETTINGS) && ./overclock.sh $(OVERCLOCK_CPU_MULT) $(OVERCLOCK_DDR_MULT)"
+
+SDIMGDIR = $(CURDIR)/build_sdimg
+sdimg: build/
+	mkdir $(SDIMGDIR)
+	cp build/sdk/fsbl/Release/fsbl.elf 	$(SDIMGDIR)/fsbl.elf  
+	cp build/sdk/system_top/hw/system_top.bit 	$(SDIMGDIR)/system_top.bit
+	cp build/u-boot.elf 			$(SDIMGDIR)/u-boot.elf
+	cp $(CURDIR)/linux/arch/arm/boot/uImage	$(SDIMGDIR)/uImage
+	cp build/zynq-$(TARGET).dtb 	$(SDIMGDIR)/devicetree.dtb
+	cp build/uboot-env.txt  		$(SDIMGDIR)/uEnv.txt
+	cp build/rootfs.cpio.gz  		$(SDIMGDIR)/ramdisk.image.gz
+	mkimage -A arm -T ramdisk -C gzip -d $(SDIMGDIR)/ramdisk.image.gz $(SDIMGDIR)/uramdisk.image.gz
+	touch 	$(SDIMGDIR)/boot.bif
+	echo "img : {[bootloader] $(SDIMGDIR)/fsbl.elf  $(SDIMGDIR)/system_top.bit  $(SDIMGDIR)/u-boot.elf}" >  $(SDIMGDIR)/boot.bif
+	bash -c "source $(VIVADO_SETTINGS) && bootgen -image $(SDIMGDIR)/boot.bif -o i $(SDIMGDIR)/BOOT.bin"
+#	rm $(SDIMGDIR)/fsbl.elf
+#	rm $(SDIMGDIR)/system_top.bit
+#	rm $(SDIMGDIR)/u-boot.elf
+#	rm $(SDIMGDIR)/ramdisk.image.gz 
+#	rm $(SDIMGDIR)/boot.bif
 
 zip-all: $(TARGETS)
 	zip -j build/$(ZIP_ARCHIVE_PREFIX)-fw-$(VERSION).zip $^
