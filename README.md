@@ -2,6 +2,9 @@
 
 High-performance LibreSDR firmware with Phil Greenland's sample-accurate timestamp support, enabling LTE base station operation with srsRAN. Two optimized variants available for different hardware configurations.
 
+![LTE Signal on Band 4](images/lte-waterfall.jpeg)
+*5 MHz LTE signal at 1842 MHz (Band 4) as seen in SDR Console*
+
 ## 🚀 Quick Start
 
 **Download prebuilt firmware:**
