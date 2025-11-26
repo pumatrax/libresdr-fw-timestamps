@@ -162,17 +162,15 @@ n_prb = 25
 
 [rf]
 device_name = soapy
-device_args = driver=plutosdr,hostname=192.168.1.1,direct=1,timestamp_every=5760,loopback=0
+device_args = driver=plutosdr,hostname=192.168.1.1,direct=1,timestamp_every=7680,loopback=0
 tx_gain = 89
 rx_gain = 20
 ```
 
-**Critical:** Use `timestamp_every=5760` for PRB 25 (not the standard 7680).
-
 **Timestamp values for other PRBs:**
 - PRB 6: `timestamp_every=1920`
 - PRB 15: `timestamp_every=3840`
-- PRB 25: `timestamp_every=5760`
+- PRB 25: `timestamp_every=7680`
 
 ---
 
